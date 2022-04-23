@@ -3,8 +3,8 @@ import {BrowserRouter as Router, Route, Navigate, Routes} from "react-router-dom
 
 // pages
 import HomePage from "./pages/HomePage";
-import AboutPage from "./pages/About";
-import ErrorPage from "./pages/Error";
+import AboutPage from "./pages/AboutPage";
+import ErrorPage from "./pages/ErrorPage";
 
 export default function App(): JSX.Element {
     return (
