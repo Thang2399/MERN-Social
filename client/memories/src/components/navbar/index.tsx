@@ -28,7 +28,7 @@ export default function Navbar(): JSX.Element {
                 <div className={'cursor-pointer'} onClick={toggleDarkMode}>
                     {darkMode ? <BsMoon/> : <BsSun/>}
                 </div>
-                <button className={'bg-white border border-gray-100 outline-none hover:bg-gray-100 hover:border-white py-2 px-5 rounded'}>
+                <button className={'bg-white border border-gray-300 outline-none hover:bg-gray-300 hover:border-white py-2 px-5 rounded hover:text-white'}>
                     Logout
                 </button>
             </div>
