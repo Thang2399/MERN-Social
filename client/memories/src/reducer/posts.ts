@@ -6,7 +6,7 @@ export default function reducer(posts: [] = [], action: any) {
         case REDUCER_ACTIONS.GET_POSTS:
             return action.payload
         case REDUCER_ACTIONS.CREATE_POST:
-            return posts
+            return [...posts, action.payload]
         default:
             return posts
     }

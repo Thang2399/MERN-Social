@@ -15,3 +15,14 @@ export const getPosts = () => async (dispatch: any) => {
     }
 
 }
+
+export const createPost = (post) => async (dispatch: any) => {
+    try {
+        const {data} = await api.createPost(post);
+
+        const action = {type: REDUCER_ACTIONS.CREATE_POST, payload: data};
+        dispatch(action);
+    } catch (err: any) {
+        console.log(err)
+    }
+}
