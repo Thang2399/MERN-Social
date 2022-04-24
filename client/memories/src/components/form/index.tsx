@@ -18,7 +18,7 @@ const Form = () => {
 
     const dispatch = useDispatch()
 
-    const handleClearFile = () => {
+    const handleClearInput = () => {
         setPostData({
             creator: '',
             title: '',
@@ -42,7 +42,7 @@ const Form = () => {
                     Write your memory
                 </h1>
 
-                <form onSubmit={handleUpload}>
+                <form>
                     <div className={'mb-3'}>
                         <BaseInput type={'text'} placeholder={'Who are you?'} value={postData.creator}
                                    handleChange={(e: any) => setPostData({...postData, creator: e.target.value})}/>
@@ -71,18 +71,18 @@ const Form = () => {
                         <FileBase type={'file'} multiple={false}
                                   onDone={({base64}) => setPostData({...postData, selectedFile: base64})}/>
                     </div>
-
-                    <div className={'flex flex-col mt-3'}>
-                        <button
-                            className={'px-14 py-2 border border-gray-300 outline-none hover:bg-gray-300 hover:border-white rounded mb-2 text-black hover:text-white'}>
-                            {isEditing ? "Edit" : "Submit"}
-                        </button>
-                        <button
-                            className={'px-14 py-2 bg-gray-300 hover:bg-white border border-white hover:border-gray-300 rounded text-white hover:text-black'}>
-                            Clear
-                        </button>
-                    </div>
                 </form>
+
+                <div className={'flex flex-col mt-3'}>
+                    <button onClick={handleUpload}
+                        className={'px-14 py-2 border border-gray-300 outline-none hover:bg-gray-300 hover:border-white rounded mb-2 text-black hover:text-white'}>
+                        {isEditing ? "Edit" : "Submit"}
+                    </button>
+                    <button onClick={handleClearInput}
+                            className={'px-14 py-2 bg-gray-300 hover:bg-white border border-white hover:border-gray-300 rounded text-white hover:text-black'}>
+                        Clear
+                    </button>
+                </div>
             </div>
         </div>
     )

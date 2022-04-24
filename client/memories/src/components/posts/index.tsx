@@ -4,12 +4,15 @@ import SinglePost from "./singlePost";
 import {postsType} from '../../reducer'
 
 const Posts = () => {
-    const postsArr = useSelector((state: postsType) => state.posts)
+    const postsArr = useSelector((state: postsType) => state.posts);
 
-    console.log(postsArr)
     return (
-        <div className={''}>
-            <SinglePost/>
+        <div className={'w-full'}>
+            {postsArr.map((post: any) => (
+                <div key={post._id} className={'w-full'}>
+                    <SinglePost {...post}/>
+                </div>
+            ))}
         </div>
     )
 };
