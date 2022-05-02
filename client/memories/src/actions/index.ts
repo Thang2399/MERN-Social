@@ -7,7 +7,7 @@ export const getPosts = () => async (dispatch: any) => {
     try {
         let {data} = await api.getPosts();
         data = data.map((item: any) => {
-            item.createdAt = moment(item.createdAt).format('MMMM Do YYYY, h:mm:ss ')
+            item.createdAt = moment(item.createdAt).locale('en-gb').format('YYYY-MM-DD HH:mm:ss');
             return item
         })
 
@@ -27,6 +27,36 @@ export const createPost = (post) => async (dispatch: any) => {
         const action = {type: REDUCER_ACTIONS.CREATE_POST, payload: data};
         dispatch(action);
     } catch (err: any) {
+        console.log(err)
+    }
+}
+
+export const updatePost = (id, post) => async (dispatch: any) => {
+    try {
+        const {data} = await api.updatePost(id, post);
+
+        dispatch({type: REDUCER_ACTIONS.UPDATE_POST, payload: data})
+    } catch (err: any) {
+        console.log(err)
+    }
+}
+
+export const deletePost = (id: string) => async (dispatch: any) => {
+    try {
+        await api.deletePost(id);
+
+        dispatch({type: REDUCER_ACTIONS.DELETE_POST, payload: id})
+    } catch (err: any) {
+        console.log(err)
+    }
+}
+
+export const updateLikePost = (id: string) => async (dispatch: any) => {
+    try {
+        const {data} = await api.updateLikePost(id);
+
+        dispatch({type: REDUCER_ACTIONS.UPDATE_LIKE_POST, payload: data})
+    }catch (err: any) {
         console.log(err)
     }
 }

@@ -1,11 +1,19 @@
-import React, {useState} from 'react';
+import React, {Dispatch, SetStateAction, useState, useEffect} from 'react';
 import BaseInput from '../base/BaseInput';
 import FileBase from 'react-file-base64';
 import {postData} from "../../types";
-import {useDispatch} from "react-redux";
-import {createPost} from "../../actions";
+import {useDispatch, useSelector} from "react-redux";
+import {createPost, updatePost} from "../../actions";
+import {postsType} from "../../reducer";
 
-const Form = () => {
+type Props = {
+    currentId: string | null,
+    setCurrentId: Dispatch<SetStateAction<string | null>>
+}
+
+const Form: React.FC<Props> = ({currentId, setCurrentId}) => {
+    const post = useSelector((state: postsType) => currentId ? state.posts.find((p: postsType) => p._id === currentId) : null);
+
     const [postData, setPostData] = useState<postData>({
         creator: '',
         title: '',
@@ -15,6 +23,14 @@ const Form = () => {
     });
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
+
+    // when post change from null => post with data, run the useEffect
+    useEffect(() => {
+        if (post) {
+            setPostData(post)
+            setIsEditing(true)
+        }
+    }, [post])
 
     const dispatch = useDispatch()
 
@@ -31,15 +47,20 @@ const Form = () => {
     const handleUpload = (e: any) => {
         e.preventDefault();
 
-        //dispatch action createPost
-        dispatch(createPost(postData))
+        if (!currentId) {
+            //dispatch action createPost
+            dispatch(createPost(postData))
+        } else {
+            dispatch(updatePost(currentId, postData))
+        }
+        handleClearInput()
     }
 
     return (
-        <div className={'flex justify-end'}>
+        <div className={''}>
             <div className={'shadow-lg bg-white rounded p-5 px-4 w-4/5'}>
                 <h1 className={'text-center mb-5'}>
-                    Write your memory
+                    {isEditing ? "Edit" : "Create"} your memory
                 </h1>
 
                 <form>
@@ -75,7 +96,7 @@ const Form = () => {
 
                 <div className={'flex flex-col mt-3'}>
                     <button onClick={handleUpload}
-                        className={'px-14 py-2 border border-gray-300 outline-none hover:bg-gray-300 hover:border-white rounded mb-2 text-black hover:text-white'}>
+                            className={'px-14 py-2 border border-gray-300 outline-none hover:bg-gray-300 hover:border-white rounded mb-2 text-black hover:text-white'}>
                         {isEditing ? "Edit" : "Submit"}
                     </button>
                     <button onClick={handleClearInput}
